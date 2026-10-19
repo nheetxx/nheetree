@@ -22,12 +22,12 @@
 
 ## Features
 
-- 🔗 Manage and personalize a collection of links
-- 🔐 User authentication via Firebase Authentication
-- 🗄️ Data stored in Cloud Firestore, with configured **security rules** and **composite indexes**
-- ⚡ Server-side logic through Firebase Cloud Functions
-- 📱 Responsive, mobile-first UI (Tailwind CSS)
-- 🚀 Ready to deploy on Vercel
+- Manage and personalize a collection of links
+- User authentication via Firebase Authentication
+- Data stored in Cloud Firestore, with configured **security rules** and **composite indexes**
+- Server-side logic through Firebase Cloud Functions
+- Responsive, mobile-first UI (Tailwind CSS)
+- Ready to deploy on Vercel
 
 > *Adjust this list to match what is actually implemented.*
 
