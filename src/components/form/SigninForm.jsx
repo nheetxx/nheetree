@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import ErrorInput from '../common/ErrorInput';
-import { GoogleSignIn, SignIn } from '@/services/firebase/config';
+import { GetAuthErrorMessage, GoogleSignIn, SignIn } from '@/services/firebase/config';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { Divider, Input } from 'antd';
@@ -50,8 +50,8 @@ const SigninForm = () => {
 
         } catch (error) {
             setGoogleLoading(false);
-            toast.error("Sign in failed.");
-            console.log(error.code, error.message);
+            toast.error(GetAuthErrorMessage(error));
+            console.error('Google sign-in failed.', error);
         } finally {
             setGoogleLoading(false);
         }
