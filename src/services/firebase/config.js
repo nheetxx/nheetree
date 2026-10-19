@@ -4,13 +4,12 @@ import { getStorage } from 'firebase/storage'
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  getAdditionalUserInfo,
   getAuth,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut
 } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { INITIAL_USER_DATA } from "@/constants/initial-user";
 import { v4 } from "uuid";
 
@@ -36,43 +35,55 @@ export const Authentication = () => {
 export const SignIn = async (email, password) => {
   await signInWithEmailAndPassword(FirebaseAuth, email, password)
 }
+
+export const EnsureUserProfile = async (user) => {
+  const db = getFirestore(firebase_app)
+  const userRef = doc(db, 'links', user.uid)
+  const userSnapshot = await getDoc(userRef)
+
+  if (userSnapshot.exists()) {
+    const userData = userSnapshot.data()
+    const missingFields = {}
+
+    if (!userData.uid) missingFields.uid = user.uid
+    if (!userData.email && user.email) missingFields.email = user.email
+
+    if (Object.keys(missingFields).length > 0) {
+      await setDoc(userRef, missingFields, { merge: true })
+    }
+
+    return {
+      id: userSnapshot.id,
+      ...userData,
+      ...missingFields,
+    }
+  }
+
+  const userData = {
+    ...INITIAL_USER_DATA,
+    profile: {
+      ...INITIAL_USER_DATA.profile,
+      avatar: user.photoURL || INITIAL_USER_DATA.profile.avatar,
+    },
+    uid: user.uid,
+    email: user.email,
+    timestamp: Date.now(),
+  }
+
+  await setDoc(userRef, userData, { merge: true })
+  return { id: user.uid, ...userData }
+}
+
 export const CreateUser = async (email, password) => {
   const result = await createUserWithEmailAndPassword(FirebaseAuth, email, password)
-  const { isNewUser } = getAdditionalUserInfo(result)
-  if (isNewUser) {
-    const db = getFirestore(firebase_app)
-    const uid = result.user.uid
-    const data = INITIAL_USER_DATA
-    
-    data.uid = result.user.uid
-    data.email = result.user.email
-    data.timestamp = Date.now()
-
-    await setDoc(doc(db, 'links', uid), data, {
-      merge: true,
-    });
-  }
+  await EnsureUserProfile(result.user)
 }
 
 export const GoogleSignIn = async () => {
   const provider = new GoogleAuthProvider();
 
   const result = await signInWithPopup(getAuth(), provider)
-  const { isNewUser } = getAdditionalUserInfo(result)
-  if (isNewUser) {
-    const db = getFirestore(firebase_app)
-    const uid = result.user.uid
-    const data = INITIAL_USER_DATA
-    
-    data.uid = result.user.uid
-    data.email = result.user.email
-    data.timestamp = Date.now()
-    data.profile.avatar = result.user.photoURL
-    
-    await setDoc(doc(db, 'links', uid), data, {
-      merge: true,
-    });
-  }
+  await EnsureUserProfile(result.user)
 }
 
 

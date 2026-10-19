@@ -1,8 +1,8 @@
-import { useState, createContext, useContext } from "react";
+import { useCallback, useState, createContext, useContext } from "react";
 
 export const InitialUserState = {
     email: null,
-    uuid: null,
+    uid: null,
 }
 
 const UserContext = createContext();
@@ -13,13 +13,13 @@ export const useUser = () => {
 
 export const UserProvider = (props) => {
     const [userState, setUserState] = useState(InitialUserState)
-    const setUser = (userCredentials) => {
+    const setUser = useCallback((userCredentials) => {
         setUserState({ ...userCredentials });
-    }
+    }, [])
 
-    const ResetUser = () => {
+    const ResetUser = useCallback(() => {
         setUserState(InitialUserState)
-    }
+    }, [])
 
     const value = { ...userState, setUser, ResetUser }
 

@@ -1,6 +1,6 @@
 # nheetree - Linktree Clone
 
-**Falltree** is a sleek and customizable Linktree clone built using [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/), and [Firebase](https://firebase.google.com/). It allows users to manage a personalized collection of links, ideal for sharing in one place.
+**nheetree** is a sleek and customizable Linktree clone built using [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/), and [Firebase](https://firebase.google.com/). It allows users to manage a personalized collection of links, ideal for sharing in one place.
 
 ## Features
 

@@ -28,7 +28,14 @@ const SigninForm = () => {
             console.log('Success');
         } catch (error) {
             setLoading(false);
-            toast.error("Sign in failed.");
+            const errorMessages = {
+                'auth/invalid-credential': 'Email atau password salah.',
+                'auth/invalid-email': 'Format email tidak valid.',
+                'auth/user-disabled': 'Akun ini dinonaktifkan.',
+                'auth/too-many-requests': 'Terlalu banyak percobaan. Coba lagi nanti.',
+                'auth/network-request-failed': 'Koneksi bermasalah. Periksa internet lalu coba lagi.',
+            };
+            toast.error(errorMessages[error.code] || `Login gagal (${error.code || 'unknown-error'}).`);
             console.log(error.code, error.message);
         } finally {
             setLoading(false);
@@ -75,7 +82,7 @@ const SigninForm = () => {
                             </button>
                         <p className='text-sm text-subtext my-4'>Dont Have Account yet? <Link href="/signup"><b>Sign-up</b></Link></p> 
                         {/* <Divider plain>OR</Divider> */}
-                            <button className="btn !bg-transparent !w-full !text-base border border-slate-500" onClick={handleGoogle}>
+                            <button type="button" className="btn !bg-transparent !w-full !text-base border border-slate-500" onClick={handleGoogle}>
                                 {GoogleLoading && <i className="bx bx-loader bx-spin"></i>}
                                 {GoogleLoading ? "Signing  ..." : <div className='flex gap-3 items-center !text-text'><Image  className='size-4' src={GoogleLogo}></Image>Continue with Google</div>}
                             </button>
