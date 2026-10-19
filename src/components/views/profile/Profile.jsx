@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 const Profile = ({ data }) => {
@@ -56,7 +57,7 @@ const Profile = ({ data }) => {
                                     </div>
                                 </div>
                                 <div className="pb-6 flex justify-center" >
-                                    <a href={process.env.NEXT_PUBLIC_WEB_URL} className='btn !rounded-xl !gap-1 !w-fit !px-4'><i className='bx bx-link rotate-[130deg]' ></i>Create your myLink </a>
+                                    <Link href="/" className='btn !rounded-xl !gap-1 !w-fit !px-4'><i className='bx bx-link rotate-[130deg]' ></i>Create your own nheetree</Link>
                                 </div>
                             </div>
                         </div>

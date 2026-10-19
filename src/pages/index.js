@@ -12,7 +12,7 @@ const Home = () => {
   const user = useUser();
   return (
     <Container>
-      <NextSeo title={`myLink`} />
+      <NextSeo title="nheetree" />
       <ThemeToggle />
       <SignoutToggle />
       <AppearanceSetting />

@@ -50,7 +50,7 @@ const Preview = ({ image, profile, links, customBtn }) => {
                                 </div>
                             ))}
                         </div>
-                        <p className='font-bold text-lg flex items-center justify-center'>my<i className='bx bx-link rotate-[130deg]' ></i> Link </p>
+                        <p className='font-bold text-lg flex items-center justify-center'>nheetree</p>
                     </div>
                 </div>
 

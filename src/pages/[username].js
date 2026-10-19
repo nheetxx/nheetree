@@ -7,7 +7,7 @@ import Profile from '@/components/views/profile/Profile'
 const PreviewProfile = ({ data }) => {
     return (
         <>
-            <NextSeo title={`${data.profile.title} - myLink`} />
+            <NextSeo title={`${data.profile.title} - nheetree`} />
             <Profile data={data} />
         </>
     )

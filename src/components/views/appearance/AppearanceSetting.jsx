@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProfileForm from './profile/ProfileForm'
 import Image from 'next/image';
 import Preview from './Preview';
@@ -34,10 +34,14 @@ const AppearanceSetting = () => {
         'bg-slate-500 shadow-lg shadow-slate-500', 'bg-slate-500 rounded-xl shadow-lg shadow-slate-500', 'bg-slate-500 rounded-full shadow-lg shadow-slate-500',
     ]
 
-    const myLinkUrl = process.env.NEXT_PUBLIC_WEB_URL + username;
+    const [nheetreeUrl, setNheetreeUrl] = useState('');
+
+    useEffect(() => {
+        setNheetreeUrl(new URL(username || '', `${window.location.origin}/`).toString());
+    }, [username]);
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(myLinkUrl)
+        navigator.clipboard.writeText(nheetreeUrl)
         toast.success("Copied to clipboard");
     }
     const handleSave = async () => {
@@ -68,7 +72,7 @@ const AppearanceSetting = () => {
                 <Legend title="Your Link" className="mt-20 sm:mt-12">
                     <div className="flex justify-between items-center gap-3">
                         <div className="flex-1 bg-container leading-4 p-3 border border-stroke rounded-md flex items-center gap-3 line-clamp-1">
-                            <a target='_blank' href={myLinkUrl}><p className='line-clamp-1 break-all'>{myLinkUrl}</p></a>
+                            <a target='_blank' rel='noreferrer' href={nheetreeUrl}><p className='line-clamp-1 break-all'>{nheetreeUrl}</p></a>
                         </div>
                         <button onClick={handleCopy} className="btn !w-fit"><i className="bx bx-link"></i> Copy</button>
                     </div>
